@@ -14,7 +14,7 @@ describe("The restaurant booking table", function () {
     beforeEach(async function () {
         try {
             // clean the tables before each test run
-            await db.none("UPDATE table_booking SET booked = false,username = null,contact_number = null,number_of_people = null WHERE username IS NOT NULL AND number_of_people IS NOT NULL AND contact_number IS NOT NULL;");
+            //await db.none("UPDATE table_booking SET booked = false,username = null,contact_number = null,number_of_people = null WHERE username IS NOT NULL AND number_of_people IS NOT NULL AND contact_number IS NOT NULL;");
         } catch (err) {
             console.log(err);
             throw err;
