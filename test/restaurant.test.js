@@ -39,12 +39,24 @@ describe("The restaurant booking table", function () {
 
     it("should check if there are available seats for a booking.", async function () {
         const restaurantTableBooking = RestaurantTableBooking(db);
+        let availableCount = 0;
+        let tablesAvailable = false;
 
         // get all the tables
+        const tables = await restaurantTableBooking.getTables();
 
         // loop over the tables and see if there is a table that is not booked
+        for(let table in tables){
+            if(table.booked == false){
+                availableCount++;
+            }
+        }
+        
+        if(availableCount>0){
+            tablesAvailable = true;
+        }
 
-        assert.deepEqual(true, false);
+        assert.deepEqual(true, tablesAvailable);
     });
 
     it("Check if the booking has a user name provided.", async function () {
@@ -81,7 +93,7 @@ describe("The restaurant booking table", function () {
     it("should be able to book a table.", async function () {
         let restaurantTableBooking = RestaurantTableBooking(db);
         // Table three should not be booked
-        assert.equal(true, await restaurantTableBooking.isTableBooked('Table three'));
+        assert.equal(false, await restaurantTableBooking.isTableBooked('Table three'));
         // book Table three
 
         await restaurantTableBooking.bookTable({

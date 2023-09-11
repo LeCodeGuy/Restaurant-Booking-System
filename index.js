@@ -9,21 +9,21 @@ import bookingRoutes from "./routes/restaurant-routes.js";
 
 /*  PSEUDO CODE/PLANNING
 ?   DATABASE 
-TODO create database on render (I have not yet worked on elephantSQL)
-TODO create table in DB and add records for tables available for bookings
-TODO create DB connection
+*DONE create database on render (I have not yet worked on elephantSQL)
+*DONE create table in DB and add records for tables available for bookings
+*DONE create DB connection
 ?   Application
-TODO create a web app in Render
-TODO create an environment variable for the connection string on the web app in Render
-TODO create routes folder
+*DONE create a web app in Render
+*DONE create an environment variable for the connection string on the web app in Render
+*DONE create routes folder
 TODO create factory function in routes folder
-TODO import routes and services
+*DONE import routes and services
 TODO create additional routes
 TODO ensure the unit tests pass
 ?   HANDLEBARS
 TODO Create handlebar templates for the additional routes
 ?   DEPLOYMENT
-TODO setup github actions
+*DONE setup github actions
 */ 
 
 // *Setup a simple ExpressJS server
