@@ -1,3 +1,5 @@
+[![NodeJS CI with PostgreSQL](https://github.com/LeCodeGuy/Restaurant-Booking-System/actions/workflows/node.js.yml/badge.svg)](https://github.com/LeCodeGuy/Restaurant-Booking-System/actions/workflows/node.js.yml)
+
 # Restaurant-Booking-System 
 
 **Scenario**: Restaurant Booking System Assessment
