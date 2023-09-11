@@ -24,7 +24,7 @@ jobs:
         env: 
           POSTGRES_USER: coder
           POSTGRES_PASSWORD: coder123
-          POSTGRES_DB: bookings
+          POSTGRES_DB: BookingDB
         ports:
         - 5432:5432
         # Set health checks to wait until postgres has started
@@ -39,9 +39,9 @@ jobs:
     - name: Install dependencies
       run: npm install
     - name: create postgresql tables
-      run: PGPASSWORD=coder123 psql -h localhost -U coder -d bookings -a -f ./sql/table.sql
+      run: PGPASSWORD=coder123 psql -h localhost -U coder -d BookingDB -a -f ./sql/table.sql
     - name: populate data into table
-      run: PGPASSWORD=coder123 psql -h localhost -U coder -d bookings -a -f ./sql/data.sql
+      run: PGPASSWORD=coder123 psql -h localhost -U coder -d BookingDB -a -f ./sql/data.sql
     - name: run tests with postgresql
       run:
         npm test
