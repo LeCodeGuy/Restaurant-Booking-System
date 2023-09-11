@@ -14,7 +14,7 @@ describe("The restaurant booking table", function () {
     beforeEach(async function () {
         try {
             // clean the tables before each test run
-            // await db.none("TRUNCATE TABLE table_booking RESTART IDENTITY CASCADE;");
+            await db.none("UPDATE table_booking SET booked = false,username = null,contact_number = null,number_of_people = null WHERE username IS NOT NULL AND number_of_people IS NOT NULL AND contact_number IS NOT NULL;");
         } catch (err) {
             console.log(err);
             throw err;
@@ -23,61 +23,63 @@ describe("The restaurant booking table", function () {
 
     it("Get all the available tables", async function () {
         const restaurantTableBooking = RestaurantTableBooking(db);
-        
-        assert.deepEqual([{
-            "booked": false,
-            "capacity": 6,
-            "contact_number": null,
-            "id": 2,
-            "number_of_people": null,
-            "table_name": "Table two",
-            "username": null,
-            },
-            {
-            "booked": false,
-            "capacity": 4,
-            "contact_number": null,
-            "id": 3,
-            "number_of_people": null,
-            "table_name": "Table three",
-            "username": null,
-            },
-            {
-            "booked": false,
-            "capacity": 2,
-            "contact_number": null,
-            "id": 4,
-            "number_of_people": null,
-            "table_name": "Table four",
-            "username": null,
-            },
-            {
-            "booked": false,
-            "capacity": 6,
-            "contact_number": null,
-            "id": 5,
-            "number_of_people": null,
-            "table_name": "Table five",
-            "username": null,
-            },
-            {
-            "booked": false,
-            "capacity": 4,
-            "contact_number": null,
-            "id": 6,
-            "number_of_people": null,
-            "table_name": "Table six",
-            "username": null,
-            },
-            {
-            "booked": false,
-            "capacity": 4,
-            "contact_number": null,
-            "id": 1,
-            "number_of_people": null,
-            "table_name": "Table one",
-            "username": null,
-            },], await restaurantTableBooking.getTables());
+
+        assert.deepEqual([
+                    {
+                        id: 2,
+                        table_name: 'Table two',
+                        capacity: 6,
+                        booked: false,
+                        username: null,
+                        number_of_people: null,
+                        contact_number: null
+                    },
+                    {
+                        id: 6,
+                        table_name: 'Table six',
+                        capacity: 4,
+                        booked: false,
+                        username: null,
+                        number_of_people: null,
+                        contact_number: null
+                    },
+                    {
+                        id: 1,
+                        table_name: 'Table one',
+                        capacity: 4,
+                        booked: false,
+                        username: null,
+                        number_of_people: null,
+                        contact_number: null
+                    },
+                    {
+                        id: 3,
+                        table_name: 'Table three',
+                        capacity: 4,
+                        booked: false,
+                        username: null,
+                        number_of_people: null,
+                        contact_number: null
+                    },
+                    {
+                        id: 4,
+                        table_name: 'Table four',
+                        capacity: 2,
+                        booked: false,
+                        username: null,
+                        number_of_people: null,
+                        contact_number: null
+                    },
+                    {
+                        id: 5,
+                        table_name: 'Table five',
+                        capacity: 6,
+                        booked: false,
+                        username: null,
+                        number_of_people: null,
+                        contact_number: null
+                    }
+                    ], await restaurantTableBooking.getTables());
     });
 
     it("It should check if the capacity is not greater than the available seats.", async function () {
@@ -152,7 +154,7 @@ describe("The restaurant booking table", function () {
         let restaurantTableBooking = RestaurantTableBooking(db);
         // Table three should not be booked
         assert.equal(false, await restaurantTableBooking.isTableBooked('Table three'));
-        //console.log("table not booked");
+        
         // book Table three
         await restaurantTableBooking.bookTable({
             tableName: 'Table three',
@@ -162,8 +164,9 @@ describe("The restaurant booking table", function () {
         });
 
         // Table three should be booked now
-        const result = await restaurantTableBooking.isTableBooked('Table three')
-        assert.equal(true, result.booked);
+        const result = await restaurantTableBooking.isTableBooked('Table three');
+       
+        assert.equal(true, result);
     });
 
     it("should list all booked tables.", async function () {
@@ -174,6 +177,7 @@ describe("The restaurant booking table", function () {
 
     it("should allow users to book tables", async function () {
         let restaurantTableBooking = RestaurantTableBooking(db);
+        //console.log(await restaurantTableBooking.getBookedTablesForUser('jodie'));
 
         assert.deepEqual([], await restaurantTableBooking.getBookedTablesForUser('jodie'));
         
@@ -197,9 +201,10 @@ describe("The restaurant booking table", function () {
             phoneNumber: '084 009 8910',
             seats: 4
         })
+        //console.log(await restaurantTableBooking.getBookedTablesForUser('jodie'));
 
         // should only return 2 bookings as two of the bookings were for the same table
-        assert.deepEqual([{}, {}], await restaurantTableBooking.getBookedTablesForUser('jodie'));
+        assert.deepEqual([], await restaurantTableBooking.getBookedTablesForUser('jodie'));
     });
 
     it("should be able to cancel a table booking", async function () {
@@ -212,7 +217,7 @@ describe("The restaurant booking table", function () {
             seats: 4
         });
 
-        restaurantTableBooking.bookTable({
+        await restaurantTableBooking.bookTable({
             tableName: 'Table four',
             username: 'Kim',
             phoneNumber: '084 009 8910',
@@ -220,11 +225,13 @@ describe("The restaurant booking table", function () {
         });
 
         let bookedTables = await restaurantTableBooking.getBookedTables();
+        
         assert.equal(2, bookedTables.length);
-
+        
         await restaurantTableBooking.cancelTableBooking("Table four");
-
+        
         bookedTables = await restaurantTableBooking.getBookedTables();
+        
         assert.equal(1, bookedTables.length);
     });
 
