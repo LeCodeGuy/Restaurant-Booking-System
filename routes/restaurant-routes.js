@@ -1,6 +1,12 @@
-export default function routes (query) {
+export default function bookingRoutes (query) {
+    let tables=[];
     
-    return{
+    async function loadTables(){
+        tables = await query.getTables();
+        return tables;
+    }
 
+    return{
+        loadTables,
     };
 }

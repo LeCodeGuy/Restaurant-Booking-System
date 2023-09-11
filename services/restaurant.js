@@ -1,4 +1,4 @@
-const restaurant = (db) => {
+const bookings = (db) => {
 
     async function getTables() {
         // get all the available tables
@@ -69,4 +69,4 @@ const restaurant = (db) => {
     }
 }
 
-export default restaurant;
+export default bookings;

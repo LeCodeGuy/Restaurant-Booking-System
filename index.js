@@ -66,24 +66,37 @@ const db = pgp(connectionString);
 
 // Instantiate the app
 let bookingService = bookings(db);
-let bookingsApp = bookingRoutes(bookingService);
+//let bookingsApp = bookingRoutes(bookingService);
 
 
 // Landing page route
-app.get("/", (req, res) => {
-
-    res.render('index', { tables : [{}, {}, {booked : true}, {}, {}, {}]})
+app.get("/", async (req, res) => {
+    //const getTables = await bookingService.getTables(); 
+    //console.log(getTables);
+    //res.render('index', { tables : [{}, {}, {booked : true}, {}, {}, {}]})
+    //res.render('index', { tables : [getTables]})
+    res.render('index',{ tables: await bookingService.getTables()})
 });
 
-// TODO CREATE /book route - post
+// book route - post
+app.post("/book",(req, res)=>{
+    // TODO add functionality for the route
+});
 
 // bookings route
 app.get("/bookings", (req, res) => {
     res.render('bookings', { tables : [{}, {}, {}, {}, {}, {}]})
 });
 
-// TODO Create /bookings/:username route - get
-// TODO Create /cancel route - post 
+// bookings/:username route
+app.get("/bookings/:username",(req, res)=>{
+    // TODO add functionality for the route
+});
+
+// cancel route
+app.post("/cancel",(req, res)=>{
+    // TODO add functionality for the route
+});
 
 // Set PORT variable
 var portNumber = process.env.PORT || 3000;
