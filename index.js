@@ -1,10 +1,10 @@
 import express from "express";
-import pgp from "pg-promise";
+import pgPromise from "pg-promise";
 import exphbs from "express-handlebars";
 import bodyParser from "body-parser";
 import flash from "flash-express";
 import 'dotenv/config';
-import bookingService from "./services/restaurant.js";
+import bookings from "./services/restaurant.js";
 import bookingRoutes from "./routes/restaurant-routes.js";
 
 /*  PSEUDO CODE/PLANNING
@@ -19,7 +19,7 @@ import bookingRoutes from "./routes/restaurant-routes.js";
 TODO create factory function in routes folder
 *DONE import routes and services
 TODO create additional routes
-TODO ensure the unit tests pass
+*DONE ensure the unit tests pass
 ?   HANDLEBARS
 TODO Create handlebar templates for the additional routes
 ?   DEPLOYMENT
@@ -65,7 +65,7 @@ const connectionString= process.env.CONNECTION_STRING;
 const db = pgp(connectionString);
 
 // Instantiate the app
-let bookingService = bookingService(db);
+let bookingService = bookings(db);
 let bookingsApp = bookingRoutes(bookingService);
 
 
