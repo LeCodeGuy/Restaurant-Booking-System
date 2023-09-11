@@ -19,14 +19,13 @@ describe("The restaurant booking table", function () {
     });
 
     it("Get all the available tables", async function () {
-        const restaurantTableBooking = await RestaurantTableBooking(db);
+        const restaurantTableBooking = RestaurantTableBooking(db);
 
         assert.deepEqual([{}, {}, {}, {}, {}], await restaurantTableBooking.getTables());
     });
 
-
     it("It should check if the capacity is not greater than the available seats.", async function () {
-        const restaurantTableBooking = await RestaurantTableBooking(db);
+        const restaurantTableBooking = RestaurantTableBooking(db);
 
         const result = await restaurantTableBooking.bookTable({
             tableName: 'Table four',
@@ -39,7 +38,7 @@ describe("The restaurant booking table", function () {
     });
 
     it("should check if there are available seats for a booking.", async function () {
-        const restaurantTableBooking = await RestaurantTableBooking(db);
+        const restaurantTableBooking = RestaurantTableBooking(db);
 
         // get all the tables
 
@@ -49,7 +48,7 @@ describe("The restaurant booking table", function () {
     });
 
     it("Check if the booking has a user name provided.", async function () {
-        const restaurantTableBooking = await RestaurantTableBooking(db);
+        const restaurantTableBooking = RestaurantTableBooking(db);
         assert.deepEqual("Please enter a username", await restaurantTableBooking.bookTable({
             tableName: 'Table eight',
             phoneNumber: '084 009 8910',
@@ -58,7 +57,7 @@ describe("The restaurant booking table", function () {
     });
 
     it("Check if the booking has a contact number provided.", async function () {
-        const restaurantTableBooking = await RestaurantTableBooking(db);
+        const restaurantTableBooking = RestaurantTableBooking(db);
         assert.deepEqual("Please enter a contact number", await restaurantTableBooking.bookTable({
             tableName: 'Table eight',
             username: 'Kim',
@@ -67,7 +66,7 @@ describe("The restaurant booking table", function () {
     });
 
     it("should not be able to book a table with an invalid table name.", async function () {
-        const restaurantTableBooking = await RestaurantTableBooking(db);
+        const restaurantTableBooking = RestaurantTableBooking(db);
 
         await restaurantTableBooking.bookTable({
             tableName: 'Table eight',
@@ -104,7 +103,7 @@ describe("The restaurant booking table", function () {
     });
 
     it("should allow users to book tables", async function () {
-        let restaurantTableBooking = await RestaurantTableBooking(db);
+        let restaurantTableBooking = RestaurantTableBooking(db);
 
         assert.deepEqual([], await restaurantTableBooking.getBookedTablesForUser('jodie'));
         
@@ -134,7 +133,7 @@ describe("The restaurant booking table", function () {
     });
 
     it("should be able to cancel a table booking", async function () {
-        let restaurantTableBooking = await RestaurantTableBooking(db);
+        let restaurantTableBooking = RestaurantTableBooking(db);
 
         await restaurantTableBooking.bookTable({
             tableName: 'Table five',

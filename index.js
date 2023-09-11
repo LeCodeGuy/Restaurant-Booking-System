@@ -3,6 +3,10 @@ import pgp from "pg-promise";
 import exphbs from "express-handlebars";
 import bodyParser from "body-parser";
 import flash from "flash-express";
+import 'dotenv/config';
+import bookingService from "./services/restaurant.js";
+import bookingRoutes from "./routes/restaurant-routes.js";
+
 /*  PSEUDO CODE/PLANNING
 ?   DATABASE 
 TODO create database on render (I have not yet worked on elephantSQL)
@@ -50,9 +54,19 @@ app.engine('handlebars', handlebarSetup);
 // set handlebars as the view engine
 app.set('view engine', 'handlebars');
 
+// *Create DB connection
+// Instantiate pg-promise
+let pgp = pgPromise();
+
+// which db connection to use
+const connectionString= process.env.CONNECTION_STRING;
+
+// Instaniate Database
+const db = pgp(connectionString);
+
 // Instantiate the app
-// let bookingService = bookingService(db);
-// let bookingsApp = bookingsRoutes(bookingService);
+let bookingService = bookingService(db);
+let bookingsApp = bookingRoutes(bookingService);
 
 
 // Landing page route
